@@ -133,6 +133,28 @@
 
   .dark-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem;
+    color: var(--text);
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background: var(--text);
+    margin: 4px 0;
+    transition: all 0.25s;
+  }
+
+  .nav-toggle.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
   .container { max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
 
   section { padding: 72px 0; border-bottom: 1px solid var(--border); }
@@ -679,139 +701,123 @@
   .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
+  /* FIX 3 & 4: back-to-top uses opacity/pointer-events approach, with z-index */
+  #back-top {
+    position: fixed;
+    bottom: 5.5rem;
+    left: 2rem;
+    z-index: 150; /* FIX 4: added z-index so it's never hidden behind other elements */
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    display: flex; /* FIX 3: always flex, never toggled */
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s, transform 0.2s, border-color 0.2s, color 0.2s;
+    font-family: 'Inter', sans-serif;
+    opacity: 0;             /* FIX 3: hidden via opacity */
+    pointer-events: none;   /* FIX 3: non-interactive when hidden */
+  }
+
+  #back-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #back-top:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 900px) {
+    .container { padding: 0 1.5rem; }
+    .nav-inner { padding: 0.75rem 1.25rem; }
+  }
+
   @media (max-width: 640px) {
-    .hero-layout { grid-template-columns: 1fr; }
-    .hero-photo-wrap { display: none; }
-    .hero-stats { grid-template-columns: repeat(2, 1fr); }
-    .about-grid { grid-template-columns: 1fr; }
-    .skill-row { grid-template-columns: 1fr; }
+    .container { padding: 0 1.1rem; }
+
+    section { padding: 48px 0; }
+    #hero { padding: 56px 0 48px; }
+
+    .nav-inner { padding: 0.65rem 1rem; }
+    .nav-logo { font-size: 0.92rem; }
+
+    .nav-toggle { display: block; }
+
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.25s ease, opacity 0.2s ease;
+    }
+    .nav-links.open { max-height: 320px; opacity: 1; }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+      display: block;
+      width: 100%;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.78rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-links a::after { display: none; }
+    .nav-links li:last-child a { border-bottom: none; }
+    .nav-links li:last-child { padding: 0.85rem 1.25rem; }
+    .dark-toggle { width: auto; }
+
+    .hero-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-photo-wrap { order: -1; margin-bottom: 0.5rem; }
+    .hero-photo-wrap img { width: 140px !important; height: 180px !important; }
+    .hero-name { font-size: clamp(2.2rem, 10vw, 3rem); }
+    .hero-actions { gap: 0.6rem; }
+    .hero-actions a { font-size: 0.74rem; padding: 0.6rem 1.1rem; }
+    .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .skill-row { grid-template-columns: 1fr; padding: 1rem 1.1rem; }
+
+    .featured-project { padding: 1.25rem; }
+    .proj-card { padding: 1.1rem; }
+    .proj-footer { flex-direction: column; align-items: flex-start; }
+
+    .edu-card { flex-wrap: wrap; gap: 0.4rem; }
+
     .cert-grid { grid-template-columns: 1fr; }
     .contact-cards { grid-template-columns: 1fr; }
-  }
-  #back-top {
-  position: fixed;
-  bottom: 5.5rem;
-  left: 2rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--muted);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  font-family: 'Inter', sans-serif;
-}
 
-#back-top:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  transform: translateY(-2px);
-}
-  /* ========== Tablet ========== */
-@media (max-width: 992px){
-    .container{
-        padding:0 1.5rem;
-    }
-    .hero-layout,
-    .about-grid{
-        grid-template-columns:1fr;
-    }
-    .hero-photo-wrap{
-        order:-1;
-        margin-bottom:2rem;
-    }
-    .hero-stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-    .cert-grid{
-        grid-template-columns:1fr;
-    }
-}
-/* ========== Mobile ========== */
-@media (max-width:768px){
-    section{
-        padding:60px 0;
-    }
-    .container{
-        padding:0 1rem;
-    }
-    .nav-inner{
-        flex-direction:column;
-        gap:1rem;
-    }
-    .nav-links{
-        flex-wrap:wrap;
-        justify-content:center;
-        gap:1rem;
-    }
-    .hero-name{
-        font-size:2.4rem;
-    }
-    .hero-actions{
-        flex-direction:column;
-    }
-    .btn-primary,
-    .btn-outline,
-    .btn-ghost{
-        width:100%;
-        justify-content:center;
-    }
-    .hero-stats{
-        grid-template-columns:1fr;
-    }
-    .skill-row{
-        grid-template-columns:1fr;
-    }
-    .edu-card{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-    .contact-cards{
-        grid-template-columns:1fr;
-    }
-    .proj-footer{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-    .float-btn{
-        bottom:1rem;
-        right:1rem;
-        padding:.7rem 1rem;
-    }
-    #back-top{
-        left:1rem;
-    }
-}
-/* ========== Small phones ========== */
-@media (max-width:480px){
-    .hero-name{
-        font-size:2rem;
-    }
-    .section-title{
-        font-size:1.8rem;
-    }
-    .photo-circle{
-        width:150px;
-        height:150px;
-    }
-}
+    .float-btn { padding: 0.6rem 1.1rem; font-size: 0.72rem; bottom: 1.25rem; right: 1.25rem; }
+    #back-top { left: 1.25rem; bottom: 4.75rem; width: 36px; height: 36px; }
+  }
 </style>
+</head>
+<body>
 <div id="portfolio-root">
   <nav>
     <div class="nav-inner">
       <div class="nav-logo">Shubham Ghodekar</div>
-      <ul class="nav-links">
-        <li><a href="#about-s">About</a></li>
-        <li><a href="#skills-s">Skills</a></li>
-        <li><a href="#proj-s">Projects</a></li>
-        <li><a href="#exp-s">Experience</a></li>
-        <li><a href="#contact-section">Contact</a></li>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about-s" onclick="closeMenu()">About</a></li>
+        <li><a href="#skills-s" onclick="closeMenu()">Skills</a></li>
+        <li><a href="#proj-s" onclick="closeMenu()">Projects</a></li>
+        <li><a href="#exp-s" onclick="closeMenu()">Experience</a></li>
+        <li><a href="#contact-section" onclick="closeMenu()">Contact</a></li>
         <li>
           <button class="dark-toggle" id="themeBtn" onclick="toggleTheme()">
             <span id="themeIcon">
@@ -821,6 +827,9 @@
           </button>
         </li>
       </ul>
+      <button class="nav-toggle" id="navToggle" onclick="toggleMenu()" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
 
@@ -860,7 +869,8 @@
           </div>
         </div>
         <div class="hero-photo-wrap reveal">
-<img src="shubham.jpeg" alt="Shubham Ghodekar" style="width:220px;height:290px;border-radius:16px;object-fit:cover;object-position:top center;border:2px solid var(--accent);box-shadow:0 0 0 4px var(--accent-light), 0 12px 40px rgba(42,92,69,0.25);">        </div>
+          <img src="shubham.jpeg" alt="Shubham Ghodekar" style="width:220px;height:290px;border-radius:16px;object-fit:cover;object-position:top center;border:2px solid var(--accent);box-shadow:0 0 0 4px var(--accent-light), 0 12px 40px rgba(42,92,69,0.25);">
+        </div>
       </div>
     </div>
   </section>
@@ -928,6 +938,7 @@
       <span class="section-label reveal">03 — Projects</span>
       <h2 class="section-title reveal">Featured Work</h2>
 
+      <!-- FIX 6: Added missing opening quote on href -->
       <div class="featured-project reveal">
         <div>
           <span class="featured-badge">Flagship Project</span>
@@ -951,8 +962,9 @@
             </div>
             <div class="proj-stack">Python · Flask · React.js · Scikit-learn · Ensemble ML · Tailwind CSS</div>
           </div>
-          <a href="https://github.com/Shubham302004/Precise-And-Enhanced-Webpage-Fraud-Detection-Using-Machine-Learning target="_blank" class="gh-btn">
-            <img src="https://cdn.simpleicons.org/github/currentcolor" width="14" height="14" alt="GitHub">
+          <a href="https://github.com/Shubham302004/Precise-And-Enhanced-Webpage-Fraud-Detection-Using-Machine-Learning" target="_blank" class="gh-btn">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
           </a>
         </div>
       </div>
@@ -973,11 +985,13 @@
             <div class="proj-stack">Python · Flask · React.js · SentenceTransformers · spaCy · Tailwind CSS</div>
           </div>
           <a href="https://github.com/Shubham302004/Smart-Resume-Screener" target="_blank" class="gh-btn">
-           <img src="https://cdn.simpleicons.org/github/currentcolor" width="14" height="14" alt="GitHub">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
           </a>
         </div>
       </div>
 
+      <!-- FIX 5: Restored the complete, correct GitHub SVG path -->
       <div class="proj-card reveal">
         <div class="proj-title">SMS Spam Detection System</div>
         <ul class="proj-bullets">
@@ -994,7 +1008,8 @@
             <div class="proj-stack">Python · Flask · Scikit-learn · NLP · TF-IDF · Naive Bayes</div>
           </div>
           <a href="https://github.com/Shubham302004/SMS-Spam-Detection" target="_blank" class="gh-btn">
-            <img src="https://cdn.simpleicons.org/github/currentcolor" width="14" height="14" alt="GitHub">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
           </a>
         </div>
       </div>
@@ -1029,10 +1044,11 @@
     <div class="container">
       <span class="section-label reveal">05 — Education</span>
       <h2 class="section-title reveal">Academic Background</h2>
+      <!-- FIX 7: Updated graduation year to reflect completion -->
       <div class="edu-cards reveal">
         <div class="edu-card">
           <div><div class="edu-degree">B.E. in Computer Science Engineering (AI &amp; ML)</div><div class="edu-school">University of Mumbai</div></div>
-          <div class="edu-year">2023 – 2026</div>
+          <div class="edu-year">2023 – 2026 (Graduated)</div>
         </div>
         <div class="edu-card">
           <div><div class="edu-degree">Diploma in Information Technology</div><div class="edu-school">MSBTE — Maharashtra State Board</div></div>
@@ -1102,10 +1118,22 @@
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
     Get In Touch
   </a>
+
+  <!-- FIX 3 & 4: uses class toggle instead of display:flex/none -->
   <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 </div>
 
 <script>
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+    document.getElementById('navToggle').classList.toggle('open');
+  }
+
+  function closeMenu() {
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('navToggle').classList.remove('open');
+  }
+
   function toggleTheme() {
     const root = document.getElementById('portfolio-root');
     const icon = document.getElementById('themeIcon');
@@ -1161,12 +1189,16 @@
     });
   }, { threshold: 0.35 });
   sections.forEach(s => scrollObs.observe(s));
+
+  // FIX 3: Use class toggle instead of display:flex/none
   const backBtn = document.getElementById('back-top');
-
-window.addEventListener('scroll', () => {
-  backBtn.style.display = window.scrollY > 400 ? 'flex' : 'none';
-});
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      backBtn.classList.add('visible');
+    } else {
+      backBtn.classList.remove('visible');
+    }
+  });
 </script>
-
-</head>
+</body>
 </html>
