@@ -701,12 +701,12 @@
   .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* FIX 3 & 4: back-to-top uses opacity/pointer-events approach, with z-index */
+
   #back-top {
     position: fixed;
     bottom: 5.5rem;
     left: 2rem;
-    z-index: 150; /* FIX 4: added z-index so it's never hidden behind other elements */
+    z-index: 150; 
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--muted);
@@ -716,13 +716,13 @@
     font-size: 1.1rem;
     cursor: pointer;
     box-shadow: var(--shadow);
-    display: flex; /* FIX 3: always flex, never toggled */
+    display: flex; 
     align-items: center;
     justify-content: center;
     transition: opacity 0.2s, transform 0.2s, border-color 0.2s, color 0.2s;
     font-family: 'Inter', sans-serif;
-    opacity: 0;             /* FIX 3: hidden via opacity */
-    pointer-events: none;   /* FIX 3: non-interactive when hidden */
+    opacity: 0;             
+    pointer-events: none;   
   }
 
   #back-top.visible {
@@ -783,7 +783,7 @@
     .dark-toggle { width: auto; }
 
     .hero-layout { grid-template-columns: 1fr; gap: 2rem; }
-    .hero-photo-wrap { margin-bottom: 0.5rem; }
+    .hero-photo-wrap { order: -1; margin-bottom: 0.5rem; }
     .hero-photo-wrap img { width: 140px !important; height: 180px !important; }
     .hero-name { font-size: clamp(2.2rem, 10vw, 3rem); }
     .hero-actions { gap: 0.6rem; }
