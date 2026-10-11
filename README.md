@@ -7,9 +7,9 @@ Personal portfolio website. Single-page, zero dependencies, no build step — pl
 ## Structure
 
 ```
-├── index.html          # All content
-├── css/style.css       # Styles, dark mode, responsive
-├── js/script.js        # Menu, theme toggle, scroll animations
+├── index.html      # All content
+├── style.css       # Styles, dark mode, responsive
+├── script.js       # Menu, theme toggle, scroll animations
 └── assets/
     ├── shubham.png
     └── Shubham_Ghodekar_Resume.pdf
