@@ -2,7 +2,7 @@
 
 Personal portfolio website. Single-page, zero dependencies, no build step — plain HTML, CSS, and JavaScript.
 
-**Live:** [your-domain.github.io](https://shubham302004.github.io/Portfolio/) *(update after enabling GitHub Pages)*
+**Live:** [shubham302004.github.io](https://shubham302004.github.io)
 
 ## Structure
 
