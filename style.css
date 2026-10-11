@@ -369,7 +369,7 @@ section:last-of-type { border-bottom: none; }
 .detail-row:hover { background: var(--surface2); }
 
 .detail-label { font-size: 0.63rem; color: var(--light); letter-spacing: 0.12em; text-transform: uppercase; min-width: 72px; font-weight: 600; }
-.detail-value { font-size: 0.84rem; color: var(--text); }
+.detail-value { font-size: 0.84rem; color: var(--text); min-width: 0; overflow-wrap: anywhere; }
 .detail-value a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
 .detail-value a:hover { opacity: 0.75; }
 
@@ -712,7 +712,7 @@ footer {
     opacity: 0;
     transition: max-height 0.25s ease, opacity 0.2s ease;
   }
-  .nav-links.open { max-height: 320px; opacity: 1; }
+  .nav-links.open { max-height: 400px; opacity: 1; }
   .nav-links li { width: 100%; }
   .nav-links a {
     display: block;
