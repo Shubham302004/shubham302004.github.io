@@ -84,3 +84,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+function copyContact(text, event, btn) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showCopied(btn);
+    }).catch(() => fallbackCopy(text, btn));
+  } else {
+    fallbackCopy(text, btn);
+  }
+}
+
+function fallbackCopy(text, btn) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showCopied(btn);
+  } catch (err) {}
+  document.body.removeChild(ta);
+}
+
+function showCopied(btn) {
+  const original = btn.innerHTML;
+  btn.classList.add('copied');
+  btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+  setTimeout(() => {
+    btn.classList.remove('copied');
+    btn.innerHTML = original;
+  }, 2000);
+}

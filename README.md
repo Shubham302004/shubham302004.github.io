@@ -20,7 +20,7 @@ Personal portfolio website. Single-page, zero dependencies, no build step — pl
 - Light / dark theme with system-free toggle
 - Mobile-first responsive layout with hamburger nav
 - Scroll-reveal animations and animated stats (IntersectionObserver)
-- Targeted at AI Engineer, ML Engineer, and Data Analyst roles
+- Targeted at AI/ML Engineer roles (Generative AI, RAG & Agentic AI)
 
 ## Run locally
 
